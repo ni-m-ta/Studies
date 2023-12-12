@@ -10,6 +10,59 @@
 - Platform-Independent: Python is designed to be cross-platform. Code written in Python can run on various operating systems with little to no modification.
 - Popular Frameworks: Python has several popular frameworks, such as Django for web development, Flask for lightweight web applications, NumPy and pandas for data science, TensorFlow and PyTorch for machine learning, and more.
 
+# Problems & Solutions
+- when dealing with tasks to read large CSV files, feared with the lack of memory usage
+    - use chunking: read the file in chunks
+        - example
+            - pandas:
+                - 
+        ```python
+        import pandas as pd
+
+        chunk_size = 10000  # Adjust this based on your available memory
+        for chunk in pd.read_csv('large_file.csv', chunksize=chunk_size):
+            # Process each chunk as needed
+            process_data(chunk)
+        ```
+    - use generators: with open...
+        - example
+            - 
+        ```python
+        def read_large_file(file_path):
+            with open(file_path, 'r', encoding='utf-8') as file:
+                for line in file:
+                    yield line.strip()
+
+        for row in read_large_file('large_file.csv'):
+            process_data(row)
+        ```
+    - streaming processing
+        - when files are encoded by utf-8
+            - example
+                - 
+        ```python
+        with open('large_file.csv', 'r', encoding='utf-8') as file:
+            for line in file:
+                process_data(line)
+        ```
+    - use dask
+        - overviews
+            - an open-source distributed computing library that provides parallel processing capabilities for data analysis
+            - can handle data sets that are larger than the available memory by partitioning the data and processing it in parallel across multiple processors or machines
+        - example
+            - 
+        ```python
+        import dask.dataframe as dd
+        df = dd.read_csv('large_file.csv')
+        ```
+    - use compression
+        - example
+            - 
+        ```python
+        import pandas as pd
+        df = pd.read_csv('large_file.csv.zip', compression='zip')
+        ```
+
 # Libraries
 
 ## io
@@ -56,3 +109,17 @@
     - examples
         - to create a raw stream by openining a file in binary mode
             - `f = open("myfile.jpg", "rb")`
+
+## tracemalloc
+- overviews:
+    - a debug tool to trace memory blocks allocated by Python
+    - example usages:
+        - traceback where an object was allocated
+        - statistics on allocated memory blocks per filename and per line number
+            - total size
+            - total number
+            - average size 
+        - compute the differences between two snapshots to detect memory leaks
+    - documents:
+        - [tracemalloc](https://docs.python.org/3/library/tracemalloc.html)
+
