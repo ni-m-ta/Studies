@@ -14,4 +14,62 @@
         - minimized overhead
             - overhead:
                 - any additional resources or time required by a system, process, or operation beyond the minimum necessary for its primary purpose
-                
+- Regular expressions
+    - overviews:
+        - powerful sequences of characters that form a search pattern. 
+        - They are used for pattern matching within strings, enabling efficient and flexible text search and manipulation. 
+        - Regex is a fundamental tool in various programming languages, text editors, and command-line utilities.
+    - expressions:
+        - Literal Characters:
+            - Characters match themselves.
+            - Example: abc matches the sequence "abc" in a string.
+        - Metacharacters:
+            - Special characters with a symbolic meaning.
+            - Examples:
+                - ^ (start of line), 
+                - $ (end of line),
+                - . (any character), 
+                - \* (zero or more occurrences), 
+                - \+ (one or more occurrences), 
+                - ? (zero or one occurrence).
+        - Character Classes:
+            - Defines a set of characters.
+            - Examples: 
+                - [aeiou] matches any vowel, 
+                - [^0-9] matches any non-digit.
+        - Quantifiers:
+            - Specify the number of occurrences.
+            - Examples: 
+            - a{3} matches exactly three 
+            - 'a' characters, 
+            - b{2,4} matches 2 to 4 'b' characters.
+        - Anchors:
+            - Define the position in the string.
+            - Examples: 
+            - ^ (start of line), 
+            - $ (end of line), 
+            - \b (word boundary).
+        - Escape Characters:
+            - Escaping metacharacters to match them literally.
+            - Example: 
+            - \. matches a period (.) character.
+        - Groups and Capturing:
+            - Use parentheses to group expressions and capture matched content.
+            - Example: 
+            - (ab)+ matches one or more occurrences of "ab".
+    - use cases:
+        - Validation:
+            - Validate emails, phone numbers, zip codes, etc.
+        - Search and Replace:
+            - Find and replace text patterns in a document or code.
+        - Data Extraction:
+            - Extract specific information from structured data.
+        - Parsing and Tokenization:
+            - Break down a string into meaningful parts.
+        - Filtering:
+            - Filter lines or items based on specific criteria.
+    - examples:
+        - mail address:
+            - ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$
+
+
