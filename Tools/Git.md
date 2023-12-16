@@ -34,6 +34,12 @@
 ### 10. **Merge Conflict:**
    - Occurs when Git is unable to automatically merge changes. Requires manual resolution by the developer.
 
+## Tips
+- branch
+   - main: production
+   - devlop: developments
+   - {Developer_Name}/feature/: branch for tests or actual developments
+
 ## Basic Git Workflow
 
 - clone
@@ -80,6 +86,7 @@ git push origin --delete {BranchName}
 ```
 git reflog
 ```
+
 
 ## Tips
 - こまめにdevとmainにマージしないと後で面倒
