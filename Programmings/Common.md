@@ -71,5 +71,21 @@
     - examples:
         - mail address:
             - ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$
+- units
+    - cp
+        - degits
+            - 1k = 1024
+            - 1m = 1024k
+            - 1g = 1024m
+    - clock
+        - 1k = 1000
+        - 1m = 1000k
+        - 1g = 1000m
+    - bit
+        - degits
+    - bite
+        - 6~9 bits
+    - octet
+        - 8bits
 
 
