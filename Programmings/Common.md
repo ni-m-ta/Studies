@@ -87,5 +87,11 @@
         - 6~9 bits
     - octet
         - 8bits
+- Character codes
+    - ASCII
+        - American Standard Code for Information Intercange
+        - 7bits
+        - alphabets, numbers, marks
+
 
 
