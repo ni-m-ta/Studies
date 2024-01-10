@@ -1,0 +1,28 @@
+# Windows
+- SQL Server
+    - Windows システムによく使われているMS製のデータベース
+    - リレーショナルデータベース管理システム
+    - アプリケーションとツールは、SQL Server インスタンスまたはデータベースに接続し、Transact-SQL を使用して通信する
+    - 機能
+        - SQL Server エージェント
+            - ジョブ情報を格納する
+            - スケジュールに従って、特定のイベントに応答して、もしくは必要に応じてジョブを実行できる
+            - 実行
+                - 1つ以上のスケジュールに従って実行
+                - 1つ以上の警告に応答して実行
+                - sp_start_jobストアドプロシージャの実行によって実行
+            - 機能
+                - SQL Server Agent Mail
+                    - 警告が発生した場合や、データベースのバックアップ・レプリケーションイベントなどの定期タスクが成功/失敗した時に、電子メールを送信
+    - T-SQL
+        - Extension of SQL (Structured Query Language) used by Microsoft SQL Server. 
+        - It's the language used for managing and manipulating relational databases in the SQL Server environment. When using SQL Server Management Studio (SSMS), you can execute T-SQL commands to interact with the database. 
+- SQL Server Management Studio
+    - SQL Server用のデータベース管理ツール
+    - データベースの作成、更新、削除に加え、バックアップやレプリケーションなどSQL serverの能力を最大限発揮できる専用ツール
+    - SQL Server -> DB1, DB2,... -> Table1, Table2,... -> Data1, Data2,...
+    - [Document](https://learn.microsoft.com/ja-jp/sql/ssms/sql-server-management-studio-ssms?view=sql-server-ver16)
+- Server Manager
+    - Windows Serverの管理コンソール
+    - ローカルとリモート両方のWindowsベースのサーバーをデスクトップからプロビジョニング及び管理する
+    - 
