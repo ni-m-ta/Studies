@@ -102,13 +102,88 @@
 - 範囲演算子
     - `$VARIABLE = X..Y`
         - `$Numbers = 1..10`
+- スクリプトの作成
+    - .PS1ファイルとして保存
+- WMI
+    - Windows Management Instrumentation
+    - 
 
 # Commands
+- `break`
+    - ループから抜け出す
+    - ```powershell
+        for ($i = 1; $i -lt 5; $i++) {
+            Write-Output "Sleeping for $i seconds"
+            Start-Sleep -Seconds $i
+            break
+            }
+        ```
+- `continue`
+    - ループの次の反復にスキップ
+    - ```powershell
+        while ($i -lt 5) {
+            $i += 1
+            if ($i -eq 3) {
+                continue
+            }
+            Write-Output $i
+        }
+        ```
+- `do`
+    - `do until`
+        - 指定された条件がfalseの間実行される
+        - ```powershell
+            $number = Get-Random -Minimum 1 -Maximum 10
+            do {
+            $guess = Read-Host -Prompt "What's your guess?"
+            if ($guess -lt $number) {
+                Write-Output 'Too low!'
+            }
+            elseif ($guess -gt $number) {
+                Write-Output 'Too high!'
+            }
+            }
+            until ($guess -eq $number)
+            ```
+    - `do while`
+        - 指令された条件がtrueの間実行される
+        - ```powershell
+            $number = Get-Random -Minimum 1 -Maximum 10
+            do {
+            $guess = Read-Host -Prompt "What's your guess?"
+            if ($guess -lt $number) {
+                Write-Output 'Too low!'
+            } elseif ($guess -gt $number) {
+                Write-Output 'Too high!'
+            }
+            }
+            while ($guess -ne $number)
+            ```
 - `Find-Module`
     - PowerShellギャラリーにあるモジュールを検索する
     - `Find-Module -Name {AnyModuleName}`
     - `Find-Module -Name {AnyModuleName} | Install-Module`
         - モジュールのインストール
+- `for`
+    - 指定された条件がtrueである間、処理が繰り返される
+    - ```powershell
+        for ($i = 1; $i -lt 5; $i++) {
+            Write-Output "Sleeping for $i seconds"
+            Start-Sleep -Seconds $i
+            }
+            ```
+- `ForEach-Object`
+    - PowerShellワンライナーなどを使用してパイプライン内の項目を反復処理する
+        - `Get-Command`のModuleパラメータは、文字列である複数の値を取得。プロパティ名によるパイプライン入力経由またはパラメーター入力経由でのみ、値を受け取る
+            - ```powershell
+                'ActiveDirectory', 'SQLServer' | ForEach-Object {Get-Command -Module $_} | Group-Object -Property ModuleName -NoElement | Sort-Object -Property Count -Descending ```
+        - ```powershell
+            $ComputerName = 'DC01', 'WEB01'
+            foreach ($Computer in $ComputerName) {
+            Get-ADComputer -Identity $Computer
+            }
+            ```
+            - foreachを使う時は、反復処理するすべての項目を事前にメモリに格納する必要がある。 
 - `Format-List`
     - 規定の書式設定をオーバーライドし、結果をリストで返す。
 - `Format-Table`
@@ -163,5 +238,25 @@
     - 指定したモジュールをインポート
 - `$PSVersionTable`
     - PowerShellに関するバージョン情報を表示
+- `Return`
+    - 既存のスコープを終了
+    - ```powershell
+        $number = 1..10
+        foreach ($n in $number) {
+            if ($n -ge 4) {
+                Return $n
+            }
+        }
+        ```
 - `Set-ExecutionPolicy`
     - 実行ポリシーを変更する
+- `while`
+    - 指定された条件がtrueである場合、実行
+    - コードが実行される前にループの先頭で条件が評価
+    - ```powershell
+        $date = Get-Date -Date 'November 22'
+        while ($date.DayOfWeek -ne 'Thursday') {
+        $date = $date.AddDays(1)
+        }
+        Write-Output $date
+        ```

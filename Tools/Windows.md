@@ -3,22 +3,59 @@
     - Windows システムによく使われているMS製のデータベース
     - リレーショナルデータベース管理システム
     - アプリケーションとツールは、SQL Server インスタンスまたはデータベースに接続し、Transact-SQL を使用して通信する
-    - 機能
-        - SQL Server エージェント
-            - ジョブ情報を格納する
-            - スケジュールに従って、特定のイベントに応答して、もしくは必要に応じてジョブを実行できる
-            - 実行
-                - 1つ以上のスケジュールに従って実行
-                - 1つ以上の警告に応答して実行
-                - sp_start_jobストアドプロシージャの実行によって実行
-            - 機能
-                - SQL Server Agent Mail
-                    - 警告が発生した場合や、データベースのバックアップ・レプリケーションイベントなどの定期タスクが成功/失敗した時に、電子メールを送信
     - T-SQL
         - Extension of SQL (Structured Query Language) used by Microsoft SQL Server. 
         - It's the language used for managing and manipulating relational databases in the SQL Server environment. When using SQL Server Management Studio (SSMS), you can execute T-SQL commands to interact with the database. 
+    - Stored Procedures
+        - with their encapsulation of logic, can be utilized within these jobs to perform specific database operations
+        - a precompiled collection of one or more SQL statements
+        - stored in the database and can be executed multiple times
+        - can accept input parameters, perform actions like data manipulation or querying, and return result sets or output parameters
+        - Modularity
+        - Precompiled
+        - Reusability
+    - SQL Server エージェント
+        - can execute stored procedures as part of their steps, providing a way to automate routine tasks and manage them centrally
+        - Manages and schedules jobs and alerts
+        - ジョブ情報を格納する
+        - スケジュールに従って、特定のイベントに応答して、もしくは必要に応じてジョブを実行できる
+        - 実行
+            - 1つ以上のスケジュールに従って実行
+            - 1つ以上の警告に応答して実行
+            - sp_start_jobストアドプロシージャの実行によって実行
+        - 機能
+            - SQL Server Agent Mail
+                - 警告が発生した場合や、データベースのバックアップ・レプリケーションイベントなどの定期タスクが成功/失敗した時に、電子メールを送信
+        - Job Steps
+            - Individual units of work within a job. Each step can include a T-SQL script, SSIS package, PowerShell script
+        - Schedules
+        - Alerts
+        - Notifications
+        - Operators
+            - Define individuals or groups who will receive notifications
+    - Integration of Stored Procedures and SQL Server Agents
+        - Executing stored procedures within SQL Server Agent jobs
+        - Error handling and logging
+            - stored procedure error handling: stored procedures can include error-handling mechanisms to deal with exceptions during execution
+            - job logging: SQL Server Agent jobs can log detailed information aboud their execution, including the output of each job step. 
+        - Centralized Management
+            - Job organization: SQL Server Agent provides a centralized localtion for manageing and monitoring all scheduled jobs
+            - Stored Procedure Independence: independent entities that can be executed manually or from other applications, not necessarily tied to SQL Server Agent jobs
 - SQL Server Management Studio
     - SQL Server用のデータベース管理ツール
+     - 機能
+        - Object Explorer
+            - Allows you to browse and manage server objects, databases, and security
+        - Query Editor
+            - Provides a powerful interface for writing and executing T-SQL queries and scripts
+        - Import and Export Data
+            - Tools for importing and exporting data between different sources
+        - Security management
+            - Tools for manageing users, roles, and permissions
+        - Activity Monitor
+            - Monitors and displays information about active processes and resource usages
+        - Maintenance plans
+            - GUI-based tools for creating maintenance plans for tasks like backups and index maintenance
     - データベースの作成、更新、削除に加え、バックアップやレプリケーションなどSQL serverの能力を最大限発揮できる専用ツール
     - SQL Server -> DB1, DB2,... -> Table1, Table2,... -> Data1, Data2,...
     - [Document](https://learn.microsoft.com/ja-jp/sql/ssms/sql-server-management-studio-ssms?view=sql-server-ver16)
