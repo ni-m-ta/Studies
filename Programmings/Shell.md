@@ -1,0 +1,24 @@
+# Overview
+- Command-line interface or a scripting environment that allows users to interact with an operting system and execute commands
+- Types of shells
+    - Bourne Shell
+        - sh
+        - original Unix shell developed by Stephen Bourne
+    - Bash
+        - Bourne Again Shell
+        - a widely used shell on Unix-like systems,enhanced version of the Bourne Shell
+    - Zsh
+        - Z Shell
+        - an extended shell with many additional features and imporvements over Bash
+    - PowerShell
+        - Microsoft's shell and scripting language for Windows and closs-platform usage. 
+- commands
+    - シェル言語キーワード
+    - OSネイティブコマンド
+        - OSにインストールされている実効可能ファイル
+    - シェル環境固有コマンド
+        - シェルのランタイム環境内でのみ使用できる外部ファイル内で定義されたコマンド
+        - PowerShellでいうcmdlet
+- ネイティブコマンドに引数を渡す
+    - シェルによって異なる
+- 
