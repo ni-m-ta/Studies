@@ -88,10 +88,66 @@
     - octet
         - 8bits
 - Character codes
+    - 文字集合を定義し、その集合の各文字に対応するビット組み合わせを一位に定めたもの
     - ASCII
         - American Standard Code for Information Intercange
         - 7bits
+        - 128文字収録
         - alphabets, numbers, marks
+        - 互換
+            - あり
+                - メリット
+                    - ASCII前提のプログラムで利用可能
+                - EUC-JP
+                - ISO-2022-JP
+                - Shift_JIS
+                - UTF-8
+            - なし
+                - UTF-16
+        - Classification
+            - Shift-JIS
+                - ASCIIコードの文字に日本語の文字コードを追加したもの
+                - 日本国内で使用される文字の表現に特化しており、特定の環境やソフトウェアでの互換性が高い
+                - 1 or 2bytes
+                    - 日本語の場合、Shift-JISがテキストデータのサイズの面で効率的
+    - Unicode: 文字 -Unicode-> コードポイント -UTF-8,UTF-16-> 符号 -> パソコン
+        - 符号化文字集合体
+        - 符号文字集合を定め、かつ、その集合内の文字とビット組み合わせとを1対1に関係づける、曖昧ではない規則の集合
+        - Char->Code points
+            - コードポイント
+        - 世界中のあらゆる文字たちにとりあえず16進数の数字を割り振った表
+        - 4バイト符号
+        - 郡、面、区、点
+            - 最大2^31
+        - Classifications
+            - 文字符号化方式
+            - 符号化文字集合で文字に対応づけた非負整数値を、実際にコンピュータが利用できるデータ列に変換する符号化方式
+            - Code points->符号
+            - Unicodeで割り振ったコードポイントをパソコンがわかるように別の16進数の数字に変換する方法
+            - UTF-8
+                - 8bit単位
+                - ASCII互換あり
+                - アルファベット: 1bite
+                - ひらがな: 3bites
+                - BOM付きの場合もあるが、ASCIIとの互換性を考えるとBOMなしがベター
+            - UTF-16
+                - BMP
+                    - Basic Multilingual Plane
+                    - 郡00面00
+                    - 使用機会の多い、多くの言語が含まれている
+                - BMP: 2bytes
+                - それ以外: 4bytes
+                - バイト順
+                    - データの先頭にBOM(Byte Order Mark)をつけて、区別
+                    - ビッグエンディアン
+                        - BOM: FE FF
+                        - 上位8bitが先頭
+                    - リトルエンディアン
+                        - BOM: FF FE
+                        - 下位8bitが先頭
+            - UTF-32
+                - コードポイントをそのまま符号として使う
+
 
 
 

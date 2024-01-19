@@ -11,3 +11,4 @@
     - problem: fix queries for SQL server in windows to ignore 0-length data
     - solution
         - add filtering like `AND LEN(STR) > 0`
+- 

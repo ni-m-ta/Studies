@@ -450,6 +450,270 @@
             - 指定した関数のみ外部で使用可能
         - `FunctionsToExport = '{FunctionNameDefined}'`
             - .psd1ファイル内に記述
+- 文字コード
+    - default
+        - ```powershell
+            IsSingleByte      : True
+            BodyName          : us-ascii
+            EncodingName      : US-ASCII
+            HeaderName        : us-ascii
+            WebName           : us-ascii
+            WindowsCodePage   : 1252
+            IsBrowserDisplay  : False
+            IsBrowserSave     : False
+            IsMailNewsDisplay : True
+            IsMailNewsSave    : True
+            EncoderFallback   : System.Text.EncoderReplacementFallback
+            DecoderFallback   : System.Text.DecoderReplacementFallback
+            IsReadOnly        : True
+            CodePage          : 20127
+            ```
+        - `437`
+    - 変換方法
+        - chcp
+            - 文字コード表を指定する
+                - 結果: chcpの値は変わるが、日本語入力ができない
+            - 文字コード表
+                - 932: Shift_JIS
+                - 20127: US-ASCII
+                - 65001: UTF-8
+            - `chcp`
+                - 現在の文字コード確認
+            - `chcp {AnyChrCode}`
+                - 指定した文字コードに変換
+        - `$OutputEncoding = [System.Text.Encoding]::[System.Text.Encoding]::UTF8`
+            - OutputEncodingを指定
+                - 結果: OutputEncodingの中身は変わるが、日本語入力できない
+        - `$OutputEncoding = [Console]::InputEncoding = [Console]::OutputEncoding = [System.Text.Encoding]::UTF8`
+            - 結果: 日本語入力が可能になった
+                - どうやらコンソールの言語も変える必要がある
+                - 一応動くが、ISEのコンソール上ではエラーが出る。
+                    - ```powershell
+                         Exception setting "InputEncoding": "The handle is invalid.
+                        "
+                        At C:\Windows\System32\WindowsPowerShell\v1.0\profile.ps1:2 char:1
+                        + [Console]::InputEncoding = [System.Text.Encoding]::UTF8
+                        + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                            + CategoryInfo          : NotSpecified: (:) [], SetValueInvocationException
+                            + FullyQualifiedErrorId : ExceptionWhenSetting
+                        
+                        Exception setting "OutputEncoding": "The handle is invalid.
+                        "
+                        At C:\Windows\System32\WindowsPowerShell\v1.0\profile.ps1:3 char:1
+                        + [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+                        + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                            + CategoryInfo          : NotSpecified: (:) [], SetValueInvocationException
+                            + FullyQualifiedErrorId : ExceptionWhenSetting 
+                        ```
+            - $OutputEncoding
+                - 環境変数
+            - []
+                - クラス
+            - `::`
+                - スタティックなメンバにアクセスする場合
+                    - スタティック
+                        - インスタンスを生成しなくても、アクセスできるメソッドやプロパティ
+                    - 普通のメソッドの呼び出しでは`.`を使うが、スタティックなメソッドでは`::`を使える
+        - `$PSDefaultParameterValues['*:Encoding'] = 'utf8'`
+            - [ドキュメント推奨の方法](https://learn.microsoft.com/ja-jp/powershell/module/microsoft.powershell.core/about/about_character_encoding?view=powershell-7.4)
+            - 結果: できない
+            - PowerShellのバージョンのせいもあるかも(検証環境: v:5.1)
+- Profile
+    - a script that runs when PowerShell starts
+    - able to add commands, aliases, functions, variables, modules, PowerShell drives,...
+    - Users/Hosts
+        - 適用可能なprofileパスの確認
+            - `$profile | Get-Member | where MemberType -eq NoteProperty`
+        - User Profile
+            - Scope: specific to an individual user account
+                - Current user, Current hosts: 
+                    - `$HOME\Documents\PowerShell\Microsoft.PowerShell_profile.ps1`
+                    - `$profile`
+            - allows users to customize their PowerShell environment based on their preferences
+        - Host Profile
+            - Scope: specific to a PowerShell host or console
+                - All users, All hosts: 
+                    - `$PSHOME\Profile.ps1`
+                    - `$profile.AllUsersAllHosts`
+            - allows administrators to define settings or configurations that should be applied to all users when they start PowerShell on a speciic host
+    - How to set up
+        1. Check an execution policy
+            - [document](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.4&viewFallbackFrom=powershell-6)
+            1. input `Get-ExecutionPolicy`
+            1. If you got, `Unrestricted`, file
+            1. If not, input `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned`
+        1. Check whether a profile exists or not
+            1. input `Test-Path $profile`
+            1. If it returns false, the input `New-Item -Path $profile -Type File -Force`
+        1. Edit the PowerShell Profile
+            1. input `ise $profile`
+- Execution Policy
+    - a security feature that determines the conditions under which PowerShell loads configuration files and rns scripts
+    - classifications
+        - Restricted
+            - No scripts are allowed to run
+            - can be used only for interactive commands
+        - AllSigned
+            - only scripts singed by a trusted publisher are allowed to run
+            - scripts must have a digital signature from a trusted publisher to run
+        - RemoteSinged
+            - Local scripts can run without a digital signature
+            - donladed scripts need to be singed by a trusted publisher
+        - Unrestricted
+            - No digital signatures are required
+            - all scripts can run
+            - least restrictive policy
+        - Bypass
+            - No restrictions
+            - all scripts can run
+        - Undefined
+            - no execution policy is set
+            - PowerShell operates in Undefined mode untile a policy is explicitly set
+- PowerShell ISE
+    - a GUI application designed specifically for PowerShell scipt dev
+    - provides a script editor with features like syntax highligting, debugging, and script execution panes 
+- WinRM
+    - WIndows Remote Management
+    - a management prtocol used by Windows operating systems to enable the remote management of computers, servers, and devices over a network
+    - communication protocol
+        - uses a SOAP-based protcol over HTTP or HTTPS
+    - configuration
+        - WinRM must be configured on both the client and the server
+    - authentication
+        - supports various authentication methods
+        - Kerberis
+        - NTLM
+        - Basic authentication
+    - Trusted hosts
+        - to establish a connection between machine that are not part of the same domain, might need to configure TrustedHosts setting
+        - specifying which remote computers are trusted to receive commands
+    - Encryption
+        - supports encryption through the use of HTTPS
+    - Fiarewall consideration
+        - Firewall rules must be configured to allow WinRM traffic
+        - default
+            - HTTP: 5985
+            - HTTPS: 5986
+- AzureRM PowerShell Module 2 Az PowerShell Module
+    - 2024/02/29に完全移行
+- Az PowerShell
+    - 利点
+        - セキュリティと安定性
+            - トークンキャッシュの暗号化
+            - 中間者攻撃の防止
+            - ADFS 2019による認証のサポート
+            - PowerShell7でのユーザー名とパスワード認証
+            - 継続的アクセス評価のようなサポート
+        - すべてのAzureサービスのサポート
+            - 一般提供されているすべてのAzureサービスでは対応するPowerShellモジュールがサポートされる
+        - 新機能
+            - Cloud Shellとクロスプラットフォームでのサポート
+            - アクセストークンを取得し、Azureリソースにアクセスするための
+            - Azureリソースを使用した高度なREST操作に使用できるCLI
+
+
+
+# Cases
+- send a file in a Windows Server A to a Windows Server B
+    - answer from documents
+        - ```powershell
+            $Session = New-PSSession -ComputerName "Server01(In Azure you can check from 'Computer name')" -Credential "Contoso\User01"
+            Copy-Item "D:\Folder001\test.log" -Destination "C:\Folder001_Copy\" -ToSession $Session
+            ```
+        - [document](https://learn.microsoft.com/ja-jp/powershell/module/microsoft.powershell.management/copy-item?view=powershell-7.4)
+    - problems
+        - ` FullyQualifiedErrorId : ServerNotTrusted,PSSessionOpenFailed`
+            - an issue with trust between the machines when attempting to establish a PowerShell remoting session
+    - Solution
+        - [Procedures](https://4sysops.com/archives/connect-to-azure-vm-using-powershell/)
+        1. Prerequisits
+            - Host (Machine operated remotely)
+                - `Install-Module AzureRM`
+                    - Install the Azure Resource Manager PowerShell module
+                    - `Install-Module Az`
+                - `Connect-AzAccount`
+                    - login Azure
+                    - `Connect-AzAccount -Tenant {TenantID} -Subscription {SubscriptionID}`
+            - Client (Machine operating locally)
+                - `Start-Service WinRM`
+                    - Verify the WinRM service is running
+                - `Set-Item WSMan:\localhost\Client\TrustedHosts -Value {PublicIPAddressOfTheVMToConnect}`
+                    - Add the VM's public IP address to the trusted hosts 
+                    - `Get-Item WSMan:\localhost\Client\TrustedHosts`
+                        - Check the current trusted VM's public IP address 
+        1. Open the ports in the network security group
+            - Host
+                - ```powershell
+                    Get-AzureRmNetworkSecurityGroup -Name {NSGNameInYourResourceGroupStoringHostVM} -ResourceGroupName {NameOfYourResourceGroupStoringHostVM} | Add-AzureRmNetworkSecurityRuleConfig -Name AllowingWinRMHTTPS -Description "To Enable PowerShell Remote Access" -Access Allow -Protocol Tcp -Direction Inbound -Priority 102 -SourceAddressPrefix Internet -SourcePortRange * -DestinationAddressPrefix * -DestinationPortRange 5986 | Set-AzureRmNetworkSecurityGroup
+                    Get-AzureRmNetworkSecurityGroup -Name {NSGNameInYourResourceGroupStoringHostVM} -ResourceGroupName {NameOfYourResourceGroupStoringHostVM} | Add-AzureRmNetworkSecurityRuleConfig -Name AllowingWinRMHTTP -Description "To Enable PowerShell Remote Access" -Access Allow -Protocol Tcp -Direction Inbound -Priority 103 -SourceAddressPrefix Internet -SourcePortRange * -DestinationAddressPrefix * -DestinationPortRange 5985 | Set-AzureRmNetworkSecurityGroup
+                    ```
+                    - ```powershell
+                        Get-AzNetworkSecurityGroup -Name {NSGNameInYourResourceGroupStoringHostVM} -ResourceGroupName {NameOfYourResourceGroupStoringHostVM} | Add-AzNetworkSecurityRuleConfig -Name AllowingWinRMHTTPS -Description "To Enable PowerShell Remote Access" -Access Allow -Protocol Tcp -Direction Inbound -Priority 102 -SourceAddressPrefix Internet -SourcePortRange * -DestinationAddressPrefix * -DestinationPortRange 5986 | Set-AzNetworkSecurityGroup
+                        Get-AzNetworkSecurityGroup -Name {NSGNameInYourResourceGroupStoringHostVM} -ResourceGroupName {NameOfYourResourceGroupStoringHostVM} | Add-AzNetworkSecurityRuleConfig -Name AllowingWinRMHTTP -Description "To Enable PowerShell Remote Access" -Access Allow -Protocol Tcp -Direction Inbound -Priority 103 -SourceAddressPrefix Internet -SourcePortRange * -DestinationAddressPrefix * -DestinationPortRange 5985 | Set-AzNetworkSecurityGroup
+                        ```
+        1. Preparing to access the VM using PowerShell
+            - Host
+                1. `New-Item -ItemType File -Path {AnyPathForScriptFile}`
+                1. ```powershell
+                    $Content = "winrm qc /force
+                    netsh advfirewall firewall add rule name= WinRMHTTP dir=in action=allow protocol=TCP localport=5985
+                    netsh advfirewall firewall add rule name= WinRMHTTPS dir=in action=allow protocol=TCP localport=5986"
+                    ```
+                    - Enable WinRM on the VM
+                    - Open the required WinRM firewall ports on hte VM if the local WIndows Firewall is activated
+                1. ```powershell
+                    Invoke-AzureRmVMRunCommand -ResourceGroupName {NameOfResourceGroupStroingHostMachine} -Name {HostMachineName} -CommandId "RunPowerShellScript" -ScriptPath C:\injectedscript.ps1
+                    ```
+                    - ```powershell
+                        Invoke-AzVMRunCommand -ResourceGroupName {NameOfResourceGroupStroingHostMachine} -Name {HostMachineName} -CommandId "RunPowerShellScript" -ScriptPath C:\injectedscript.ps1
+                        ```
+                    - Run the script in the created file inside the VM
+        1. Connect to the VM using PowerShell
+            - Client
+                - `Enter-PSSession -ComputerName {PublicIPAddressOfHostMachine}`
+- do tasks automatically
+    - Description
+        - more specifically, send a file from a Windows Server A to a Windows Server B via PowerShell with Time Schduler
+    - Solution
+        1. Create a script file
+        1. Register a schedule
+            - `Register-ScheduledTask -TaskName {TaskName} -Trigger {TriggerLikeWhenOrWhere} -Action {ActionToExecute}`
+                1. `$Trigger = New-SchduledTaskTrigger -At {00:00~23:59} -Once/-Daily/...`
+                1. `$Action = New-SchduledTaskAction -Execute {ProgramsToExecuteLikePowerShell.exe} -Argument {ScriptFileAbsPathToExecute}`
+                1. `Register-Scheduled -TaskName {TaskName} -Trigger $Trigger -Action $Action`
+            - You can see Timer Sceduler
+            - `Set-ScheduledTask -TaskName {TaskName} -Trigger -Action`
+                - modify a schduled task
+            - `Stop-ScheduledTask -TaskName {TaskName}`
+                - Stop the current running task
+            - `Unregister-ScheduledTask -TaskName {TaskName}`
+                - Remove a scheduled task
+            - `Get-ScheduledTaskInfo -TaskName {TaskName}`
+                - get detail info of a schduled task
+- set up UTF-8 as the default char codes for PowerShell
+    - Description
+        - When booting PowerShell, run a $Profile to execute commands automatically
+    - Keywords
+        - `$Profile`: current user, current host
+        - `$Profile.AllUsersAllHosts`: all user, all hosts
+    - Solution
+        1. Check an execution policy
+            - [document](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.4&viewFallbackFrom=powershell-6)
+            1. input `Get-ExecutionPolicy`
+            1. If you got, `Unrestricted`, file
+            1. If not, input `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned`
+        1. Check whether a profile exists or not
+            1. input `Test-Path $profile`
+            1. If it returns false, the input `New-Item -Path $profile -Type File -Force`
+        1. Edit the PowerShell Profile
+            1. input `ise $profile`
+            1. write the following codes
+                - ```powershell
+                    # To set the character code as UTF-8
+                    [Console]::InputEncoding = [System.Text.Encoding]::UTF8
+                    [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+                    $OutputEncoding = [System.Text.Encoding]::UTF8 
+                    ```
 
 
 # Commands
@@ -602,6 +866,9 @@
     - 実行中のプロセスを確認するためのコマンドレット
 - `Get-PSProvider`
     - 使用可能なPowerShellプロバイダーを表示
+- `Get-ScheduledTaskInfo`
+    - Show a scheduled task's info
+    - ` Get-ScheduledTaskInfo -TaskName {TaskName}`
 - `Get-Service`
     - サービスの一覧とその状態を取得するためのコマンドレット
 - `Get-Verb`
@@ -630,6 +897,14 @@
     - `$Session = New-PSSession -ComputerName dc01, sql02, web01 -Credential $Cred`
 - `$PSVersionTable`
     - PowerShellに関するバージョン情報を表示
+- `Register-ScheduledTask`
+    - registers a scheduled task definition on a local computer
+    - ```powershell
+        $Time = New-ScheduledTaskTrigger -At 12:00 -Once
+        $User = "Contoso\Administrator"
+        $PS = New-ScheduledTaskAction -Execute "PowerShell.exe"
+        Register-ScheduledTask -TaskName "SoftwareScan" -Trigger $Time -User $User -Action $PS
+        ```
 - `Remove-Module`
     - 現在のPowerShellセッションのメモリからモジュールが削除
     - ただしシステムまたはディスクからは削除されない
@@ -662,6 +937,7 @@
         ```
 - `Set-ExecutionPolicy`
     - 実行ポリシーを変更する
+    - `Set-ExecutionPolicy RemoteSigned`
 - `Start-Process`
     - ネイティブコマンドを実行するために使用可能
     - コマンドの実行方法を制御する必要がある場合のみ使用
@@ -670,6 +946,14 @@
         - 新しいプロセスによって作成されるコンソールウィンドウを非表示にする
         - stdin, stdout, stderrストリームをリダイレクトする
         - コマンドに対して別の作業をする
+- `Set-ScheduledTask`
+    - modify and a scheduled task
+    - ```powershell
+        PS C:\> $Time = New-ScheduledTaskTrigger -At 12:00 -Once
+        PS C:\> Set-ScheduledTask -TaskName "SoftwareScan" -Trigger $Time
+        ```
+- `UnInstall-Module`
+    - `Uninstall-Module {AnyModuleNameToUninstall}`
 - `while`
     - 指定された条件がtrueである場合、実行
     - コードが実行される前にループの先頭で条件が評価
