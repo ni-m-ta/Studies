@@ -147,6 +147,44 @@
                         - 下位8bitが先頭
             - UTF-32
                 - コードポイントをそのまま符号として使う
+- Authentication
+    - OAuth 2.0
+        - クライアントアプリと認可サーバーのやり取りを標準化したもの
+        - primariliy designed for authorization and delegation scenarios
+        - allows a user to grant a third-party application limited access to their resources without sharing their credentials
+        - an open-standard authorization protocol or framework that provides applications the ability for secure designated access
+        - doesn't share password data but instead uses authorization tokens to prove an identity between consumers and service providers
+        - an authentication protocol that allows you to approve one application interacting with another on your behalf without giving away your password
+        - use XML
+        - gives a simpler mobile experience
+        - uses API calls exctensively
+        - フロー
+            - クライアントアプリが、認可サーバーに対し、アクセストークンの要求を行う
+            - 認可サーバーが、ユーザーに対し、クライアントアプリに権限を与えるか否かを確認
+            - ユーザーが、認可サーバーに対し、許可する
+            - 認可サーバーが、アクセストークンを生成する
+            - 認可サーバーが、クライアントアプリに対し、アクセストークンを発行する
+            - クライアントアプリが、リソースサーバーに対し、API経由でアクセストークンとともにユーザーのデータを要求する
+            - リソースサーバーは、アクセストークンを検証する
+            - リソースサーバーは、クライアントアプリに対し、ユーザーのデータを渡す
+    - SAML
+        - Security Assertion Markup Language
+        - an alternative federated authentication standard that many enterprises use for Single-Sign On
+        - enables enterprises to monitor who has access to corporate resources
+        - use XML
+        - gives geared towards enterprise security
+        - drops a session cookie in a browser that allows a user to access certain web pages - great for short-lived work days
+        - SSO
+            - commonly used in scenarios where a user logs into n identity provider and is then granted access to multiple service providers without re-entering credentials
+        - federation
+            - used for federated identity scenarios where multiple organizations collaborate securely
+    - differences between OAuth and SAML
+        - Focus
+            - OAuth: authorization and resource access delegation
+            - SAML: achieving SSO and federated identity
+        - Use cases
+            - OAuth: ideal for scenarios where third-party applications need access to user data
+            - SAML: ideal for achieving SSO and federated identity in enterprise scenarios
 
 
 

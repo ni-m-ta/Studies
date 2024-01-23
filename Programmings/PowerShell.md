@@ -610,6 +610,14 @@
             - Cloud Shellとクロスプラットフォームでのサポート
             - アクセストークンを取得し、Azureリソースにアクセスするための
             - Azureリソースを使用した高度なREST操作に使用できるCLI
+- Microsoft.SharePointOnline.CSOM
+    - Client-Side Object Model
+    -  a set of libraries and APIs provided by MS to interact with SharePoint Online from client applications
+    - can be used with .NET Lang, JS, or others
+    - authenticaion
+        - can be done using OAuth
+    - supports a wide range of operations
+    - cross-platform support
 
 
 
@@ -714,7 +722,29 @@
                     [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
                     $OutputEncoding = [System.Text.Encoding]::UTF8 
                     ```
-
+- install Goole Chrome
+    - ```powershell
+        # Define the download URL for the Google Chrome installer
+        $chromeInstallerUrl = "https://dl.google.com/chrome/install/latest/chrome_installer.exe"
+        # Define the path to save the installer
+        $installerPath = "$env:TEMP\chrome_installer.exe"
+        # Download the Google Chrome installer
+        Invoke-WebRequest -Uri $chromeInstallerUrl -OutFile $installerPath
+        # Install Google Chrome silently
+        Start-Process -FilePath $installerPath -ArgumentList "/silent", "/install" -Wait
+        # Remove the installer file
+        Remove-Item -Path $installerPath -Force
+        ```
+- connect to Share Point
+    - [Document](https://learn.microsoft.com/en-us/powershell/sharepoint/sharepoint-online/connect-sharepoint-online?view=sharepoint-ps&redirectedfrom=MSDN)
+    - prerequisits
+        - authentication to access admin?
+    - solution
+        1. Install Microsoft.Online.SharePoint.PowerShell
+            - `Install-Module -Name Microsoft.Online.SharePoint.PowerShell`
+        1. Connect to SharePoint
+            - `Connect-SPOService -Url https://contoso-admin.sharepoint.com`
+    
 
 # Commands
 - `break`

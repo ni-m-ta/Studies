@@ -1,0 +1,154 @@
+# Protocols
+- SMTP
+    - Simple Mail Transfer Protocol
+    - used for sending emails from the sender's mail server to the recipient's mail server
+- POP
+    -  Post Office Protocol
+    - allows users to retrieve emails from a mail sever to a local client device
+- IMAP
+    - Internet Message Access Protocol
+    - Provides a more advanced and flexible way to retrieve and manage emails on a mail server
+
+- メールが届くまで
+    1. メール送信し、メールが送信側メールサーバーに届く
+    1. 送信側メールサーバーが受信側メールサーバーに配送
+    1. 送信側のDNSに認証情報を要求
+    1. 受信側メールサーバーに認証情報を提供
+    1. 受信側メールサーバーが認証情報とメールが一致するか確認
+    1. 受信BOXへ
+
+- Security
+    - なりすましメール
+        - 封筒と手紙の差出人が異なる
+        - メールクライアントで確認できるのはヘッダFrom
+        - Envelop From
+            - 封筒の差出人
+        - Header From
+            - 手紙の差出人
+            - 詐称が簡単にできる
+        - 防ぐ仕組み
+            - 受信したメールの情報が詐称されていないか確認
+            - 送信ドメイン認証
+                - 送信側DNSに認証情報を要求し、手元のメールと比較する
+                - SPF
+                    - Sender Policy Framework
+                    - 認証情報としてIPアドレスを使用
+                    - 方法
+                        - DNSサーバーには、あらかじめ送信側メールサーバーのIPアドレス(SPFレコード)が登録されています。受信側メールサーバは、エンベロープFromドメインを管理するDNSサーバからSPFレコードを取得し、送信元メールサーバのIPアドレスと一致するかどうかを確認します。
+                - DKIM
+                    - DomainKeys Identified Mail
+                    - 電子署名を使って認証
+                        - 電子署名
+                            - 公開鍵認証方式
+                    - 方法
+                        - 送信側メールサーバーの公開鍵をあらかじめDNSサーバーに登録する。送信側メールサーバーは、自身の秘密鍵による電子署名をつけてメールを送信。受信側メールサーバーは、メールヘッダから特定したドメインのDNSサーバーから公開鍵を取得し、その電子署名を検証。
+                - DMARC
+                    - Domain Message Authentication Reporting and Conformance
+                    - SPFとDKIMを元にした最新の認証手段
+                    - どの認証方法でチェックするか、認証に失敗した場合どうするかなどの指示を送信者から受信者に知らせる手段
+                        - SPFまたはDKIMで認証されなかったメールを迷惑メールフォルダに振り分けるか、まとめてブロックするかなどを送信元のドメイン所有者がコントロールできる
+                            - スパマーの識別がより正確になり、悪意のあるメールの侵入を防ぐだけでなく、ご検知を最小限に抑え、認証状況の透明性をより高める
+                    - フィードバックループの機能があることから、送信者は自分のドメインから送信されたと思われるメールがDMARCのポリシーに適合しているかを監視できるようになっている
+                    - DMARCレコード
+                        - v
+                            - version
+                            - 受信サーバは、メッセージのヘッダFromのDNSレコードからこのタグを探します。“v=DMARC1”から始まるTXTレコードがないと、受信サーバはDMARCを確認しません。
+                        - p
+                            - policy
+                            - DMARCの認証に失敗したメッセージを受信サーバーがどう扱うべきか
+                                - none
+                                    - 認証に失敗したメールに対して何もしないように指示。違反した場合、DMARCレコードのmailto: にレポートを送信
+                                - quarantine
+                                    - 認証に失敗したメールを隔離するように受信サーバーに指示
+                                - reject
+                                    - 認証に失敗したメールは無条件に拒否するように受信サーバーに指示
+                        - rua
+                            - 集計レポートの送信先
+                            - DMARCの認証に失敗した大まかな情報
+                        - ruf
+                            - 認証失敗レポートの送信先
+                            - 詳細な情報
+                        - rf
+                            - reporting format
+                        - pct
+                            - DMARCポリシーを適用するメールの割合
+                - SendGridでメールを送る場合
+                    - 何も設定しなくてもSendGridドメインでSPFとDKIMが設定されますが、これはメールのエンベロープFromとヘッダFromが一致しない状態です(例：kke.co.jpからメールを送る場合、エンベロープFromがSendGridドメイン、ヘッダFromがkke.co.jp)。
+                    - 独自ドメインからメールを送る場合は、Domain Authenticationの設定
+                    - DMARC
+                        - [Document](https://sendgrid.kke.co.jp/blog/?p=3137)
+                        - 独自ドメイン利用設定でSPFとDKIMを有効化する
+                            - [Document](https://sendgrid.kke.co.jp/docs/Tutorials/D_Improve_Deliverability/using_whitelabel.html)
+                        - ドメインのDKIMとSPFが適切に設定されているか確認
+                        - DNSレジストらでDMARCレコードを公開し、結果を監視
+                            - ドメインホストのDNSレジストらで、DMARCの設定を記述したTXTレコードを追加
+                            - 親ドメインに追加
+                        - 受け取ったフィードバックを分析し、必要に応じてメールの流れを調整
+                            - 集計レポートは.zip形式の添付ファイルで送信される
+                        - 分析し、DMARCポリシーを段階的に引き上げる
+                            - 
+
+
+# Events
+- GmailとMSのDMARC設定
+    - 2016
+    - DMARCの設定をp=”reject”と厳しい設定にすると、認証を受けていない第三者がそのドメインを利用してメールを送信することができなくなる
+- GmailとYahoo!が送信者に義務付ける新しい要件
+    - ベストプラクティスが要件に
+    - まとめ: ヘッダFromのドメインでDMARCレコードを設定し、かつDMARC認証がpassすること
+    - 対象
+        - 個人のGmailアカウントに24時間以内に5000件以上のメールを送信するユーザー
+        - 同じプライマリドメインから送信されたすべてのメール
+        - 上記条件を一回以上満たすと一括送信者となる
+        - ステータスに有効期限なし
+    - 送信元ドメインでSPF/DKIMを設定
+        - Domain Authentication
+            - [Document](https://sendgrid.kke.co.jp/docs/Tutorials/D_Improve_Deliverability/using_whitelabel.html#-Domain-Whitelabel)
+    - 送信元ドメインまたは送信元IPアドレスの正引きレコードと逆引きレコードが正しく登録されていることを確認
+        - DNS
+            - 正引き
+                - ドメインのAレコードを参照すると紐づくIPアドレスを特定
+            - 逆引き
+                - IPアドレスのPTRレコードを参照すると紐づくドメインを特定
+        - Reverse DNS
+            - [Document](https://sendgrid.kke.co.jp/docs/Tutorials/D_Improve_Deliverability/using_whitelabel.html#-IP-Whitelabel)
+    - Google Postmaster Toolsの迷惑メール報告率を0.1%以下でいじ
+        - Google Postmaster Tools
+            - ドメインレプテーションやIPレピュテーションなどの確認
+            - Gmailサーバーにおける迷惑メールの報告率も確認できる
+        - Deliverability Insights
+            - Yahoo!やMSの迷惑メール報告率の確認
+            - [Documnent](https://sendgrid.kke.co.jp/blog/?p=15512)
+    - Internet Message Format Standard (RFC5322)に準拠した形式でメッセージ作成
+        - RFC5322
+            - メールの正式なフォーマットを定義するインターネット標準
+        - HTML規格に沿ったメールを送信しているかなどを確認
+            - [Document](https://html.spec.whatwg.org/multipage/)
+    - ヘッダFromにGmailアドレスを設定しない
+        - Gmailは、DMARCポリシーに「quarantine」を適用
+            - Gmailから送っていないにも関わらずヘッダFromにGmailアドレスを指定すると、受信トレイにメールが届かなくなるかも
+    - メーリングリストやゲートウェイでメールが転送される場合はARCヘッダを追加
+        - ARC
+            - 転送前に行われた認証の結果を転送後も確認できる
+            - 転送の過程でSPFやDKIMが認証に失敗した場合でも、最終的な宛先にメールが届くようになる
+            - メールが転送されるときに受信側サーバーで処理される仕組み
+    - 送信元ドメインでDMARCポリシーを設定
+        - DMARCの設定は、DNSにレコードを登録して行う
+            - ポリシーはnone以上
+            - 設定状況はVailmailから確認可能
+                - [Vailmail](https://domain-checker.valimail.com/dmarc)
+        - [Document](https://sendgrid.kke.co.jp/blog/?p=3137)
+    - ヘッダFromドメインは、SPFまたはDKIMの認証対象ドメインと一致する必要がある
+        - SMPとDKIMが設定されているドメインからメールを送信する
+        - DMARC Alignment
+            - SPF及びDKIMの認証対象ドメインとヘッダFromのドメインが一致する顔検証する
+            - [Document](https://support.google.com/a/answer/10032169#alignment)
+    - メールマガジンなどの場合は本文にわかりやすい配信停止リンクを設置し、ワンクリックで配信停止できるようにする
+        - One-click unsubscribe、RFC 8058に準拠したList-Unsubscribeヘッダを実装する
+        - メール本文内にわかりやすい文言を追加する
+        - [Document](https://sendgrid.kke.co.jp/blog/?p=10316)
+    - 送信経路にはセキュア通信を利用
+        - [Document](https://docs.sendgrid.com/for-developers/sending-email/support-for-tls-12)
+    - checker
+        - [dmarcian.com](https://dmarcian.com/)
+        - [vailmail.com](https://www.valimail.com/)
