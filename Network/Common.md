@@ -2,9 +2,79 @@
 
 # DNS
 - a decentralized naming system for computers, services, or resources connected to the internet or private networks
+    - Records
+        - providing information about domain names, IP addresses, mail servers, and so on
+        - Each record type serves a specific purpose and is used for various DNS-related tasks
+        - types
+            - A (Address) Record:
+                - Maps a domain or subdomain to an IPv4 address.
+                - Example: example.com IN A 192.168.1.1
+            - AAAA (IPv6 Address) Record:
+                - Maps a domain or subdomain to an IPv6 address.
+                - Example: example.com IN AAAA 2001:db8::1
+            - CNAME (Canonical Name) Record:
+                - Creates an alias or nickname for one domain to point to another domain.
+                - Example: www.example.com IN CNAME example.com
+            - MX (Mail Exchange) Record:
+                - Specifies mail servers responsible for receiving emails on behalf of the domain.
+                - Example: example.com IN MX 10 mailserver.example.com
+            - TXT (Text) Record:
+                - Stores arbitrary text data and is often used for adding human-readable information.
+                - Example: example.com IN TXT "v=spf1 include:_spf.example.com ~all"
+            - PTR (Pointer) Record:
+                - Used for reverse DNS lookups, mapping an IP address to a domain or hostname.
+                - Example: 1.1.168.192.in-addr.arpa IN PTR example.com
+            - NS (Name Server) Record:
+                - Specifies authoritative DNS servers for the domain.
+                - Example: example.com IN NS ns1.exampledns.com
+            - SOA (Start of Authority) Record:
+                - Contains administrative information about the domain and the zone.
+           - SRV (Service) Record:
+                - Specifies information about services available in the domain.
+                - Example: _service._tcp.example.com IN SRV 0 5 5060 server.example.com
+            - CAA (Certification Authority Authorization) Record:
+                - Controls which certificate authorities are allowed to issue certificates for a domain.
+                - Example: example.com IN CAA 0 issue "letsencrypt.org"
 - Domain
     - a group of network resources (such as computers, servers, or devices) that are managed under a common set of rules and procedures.
     - parent domain
         -  a higher-level domain in the DNS hierarchy. It is the domain from which one or more subdomains originate
     - subdomain
         - a domain that is part of a larger domain
+
+# Security
+- SSL
+    - Secure Socket Layer
+    - cryptographic protocols designed to provide secure communication over a computer network
+    - used to secure data transfer between a client (such as a web browser) and a server (web server, email server, etc.)
+    - developed by Netscape in the mid-1990s to secure online communication.
+    - SSL 2.0 and 3.0 had security issues, leading to the deprecation of SSL in favor of TLS
+- TLS
+    - Transport Layer Security
+    -  the successor to SSL and was designed to address the security shortcomings of SSL
+    - cryptographic protocols designed to provide secure communication over a computer network
+    - used to secure data transfer between a client (such as a web browser) and a server (web server, email server, etc.)
+    - technical aspects
+        - Handshake Protocol
+            - Establishes the initial parameters of the secure communication session
+            - Determines the algorithms and keys used for encryption and authentication.
+            - Optionally authenticates the server (and sometimes the client) to ensure their identities
+        - Record Protocol
+            - Manages the encrypted communication session
+            - Uses symmetric-key encryption algorithms to secure the data transmitted between the client and server
+            - Employs cryptographic hash functions to ensure the integrity of the transmitted data
+            - Can include data compression, though it's often recommended to disable it due to potential security issues
+        - TLS Cipher Suits
+            - Cipher Suite
+                - A combination of encryption, hash, and key exchange algorithms
+            - TLS 1.3 promotes the use of cipher suites with PFS
+                - PFS
+                    - Perfect Forward Secrecy
+                    - ensuring that a compromise of long-term keys does not compromise past session keys.
+        - 暗黙的TLS
+            - 初期接続でSecure Socket LayerまたはTransport Layer Security証明書を使って開始
+            - クライアント側に少し多くの作業を要求
+            - 接続は最初から暗号化
+        - StartTLS
+            - プレーンテキストでやり取り開始し、可能であればTLSにアップグレードするプロトコルコマンド
+            - １つのポートで平文とTLSの両方を扱うことができるため。利用推奨

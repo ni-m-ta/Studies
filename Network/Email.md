@@ -9,13 +9,68 @@
     - Internet Message Access Protocol
     - Provides a more advanced and flexible way to retrieve and manage emails on a mail server
 
-- メールが届くまで
+# メールが届くまで
     1. メール送信し、メールが送信側メールサーバーに届く
     1. 送信側メールサーバーが受信側メールサーバーに配送
     1. 送信側のDNSに認証情報を要求
     1. 受信側メールサーバーに認証情報を提供
     1. 受信側メールサーバーが認証情報とメールが一致するか確認
     1. 受信BOXへ
+
+# Features
+- header
+    - Received
+        - indicates the route the email toook through various mail servers
+    - Authentication-Results
+        - This field provides information about the results of SPF, DKIM, and DMARC authentication checks
+        - spf
+            - SPF check results
+        - smtp.mailfrom
+            - Envelop From
+        - dkim
+            - DKIM check results
+        - header.d
+            - domain used for DKIM signing
+        - dmarc
+            - DMARC check results
+    - Received-SPF
+        - SPF results
+        - provides additional details
+    - DKIM-Signature
+        - d
+            - sigining domain for DKIM
+        - s
+            - DKIM selector
+        - bh
+            - represents the body hash used in DKIM signing
+        - b
+            - contains the actual DKIM signature
+    - Received
+        - a specific action taken by a mail filter or server
+        - can indicate the last hop before the email was delivered to the final recepient
+- others
+    - FQDN
+        - Fully Qualified Doman Name
+        - a domain name that specifies the exact location of a resource in the DNS hieraruchy
+        - the full and unambiguous path to a speicifc domain, including its top-level domain, subdomains, and host or resource name
+        - `hostname.subdomain.domain.TLD`
+- レコード
+    - A
+        - maps a domain or subdomain to IPv4 address
+    - AAAA
+        - maps a domain or subdomain to IPv6
+    - CNAME
+        - crates an alias or nickname for one domain to another
+    - MX
+        - specifies the mail servers responsible for receiving email on behalf of the domain
+    - TXT
+        - allows domain administrators to attach text to the domain
+    - PTR
+        - used for recerse DNS lookups, mapping an IP address to a domain name
+    - NS record
+        - specifies authoritative DNS servers for the domain
+    - SOA
+        - contains administrative information about the domain, including the primary DNS server, the email of the domain administrator, the domain's serial number, and timers
 
 - Security
     - なりすましメール

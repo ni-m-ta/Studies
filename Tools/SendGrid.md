@@ -14,3 +14,7 @@
             - メール本文内のトラッキング用URLをSendGridドメインから独自ドメインに変更
         - Reverse DNS
             - メールの送信元IPの逆引き結果をSendGridドメインから独自ドメインに変更する
+- Domain
+    - Envelope From
+        - 基本SendGridによって自動生成
+        - Domain Authenticationを設定することで独自ドメインに変更できる

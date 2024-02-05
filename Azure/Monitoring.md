@@ -11,6 +11,12 @@
     - Security events in combination with Azure Sentinel
     - Networking events and health in combination with Network Watcher
     - Custom sources that use the APIs to get data into Azure Monito
+- shortcuts
+    - datastore -> Log Analytics Workspaces, Metrics, Insights...
+    - data from core systems -> Azure Resource
+
+# Knowledge
+
 
 # Insights
 - 

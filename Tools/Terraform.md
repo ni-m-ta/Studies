@@ -1,0 +1,11 @@
+# Overviews
+- an open-source infrastructure as code (IaC) tool created by HashiCorp.
+- allows users to define and provision infrastructure using a declarative configuration language
+- can manage the entire lifecycle of your infrastructure, including provisioning, updating, and destroying resources, in a safe and efficient manner
+- Declarative Configuration: Users define the desired state of their infrastructure in a declarative configuration file (usually written in HashiCorp Configuration Language - HCL). This configuration describes the resources and their configurations.
+- Resource Providers: Terraform supports various providers, including cloud providers like AWS, Azure, Google Cloud, as well as other services and platforms like Docker, GitHub, and more. Each provider offers a set of resources that can be managed.
+- Execution Plans: Terraform generates an execution plan that describes what actions will be taken to achieve the desired state. Users can review the plan before applying changes to ensure they align with expectations.
+- Idempotent Operations: Terraform performs operations in an idempotent way, meaning if the desired state matches the current state, no changes are made. This ensures that applying the configuration multiple times results in the same state.
+- State Management: Terraform maintains a state file that keeps track of the current state of the infrastructure. This file is used to plan and apply changes incrementally.
+- Modularity and Reusability: Terraform configurations can be organized into modules, allowing for modular and reusable code. This is particularly useful for managing different parts of infrastructure or sharing configurations across projects.
+- Community and Ecosystem: Terraform has a large and active community, and there is a rich ecosystem of modules and providers contributed by both HashiCorp and the community.
