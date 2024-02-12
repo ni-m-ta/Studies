@@ -1,83 +1,12 @@
-const objChecklists = {
-    "CSP Azure": {
-      "ChildCheckList": [
-        "申請書内容確認",
-        "テナント作成",
-        "管理者リレーションシップ作成",
-        "セキュリティグループ作成",
-        "CSP Azure発注",
-        "サブスクリプション名変更",
-        "所有者追加",
-        "ポリシー設定",
-        "顧客へ設定完了の連絡（メール）",
-        "申請書保管",
-        "管理表更新",
-        "事務側へ新規テナントの情報共有"
-      ],
-      "PIC": 1073960708
-    },
-    "CSP RI/Saving Plan": {
-      "ChildCheckList": [
-        "申請書内容確認",
-        "パラメーターシート作成",
-        "パラメーターシート承認",
-        "ライセンス購入",
-        "証憑保管",
-        "証憑確認",
-        "顧客へ設定完了の連絡（メール）",
-        "申請書保管",
-        "管理表更新",
-        "事務側へRI/SavingPlanの売上月と原価発生月を連絡"
-      ],
-      "PIC": 1073960708
-    },
-    "CSP ライセンス": {
-      "ChildCheckList": [
-        "申請書内容確認",
-        "パラメーターシート作成",
-        "パラメーターシート承認",
-        "ライセンス購入",
-        "証憑保管",
-        "証憑確認",
-        "顧客へ購入完了の連絡（メール）",
-        "申請書保管",
-        "管理表更新",
-        "事務側へライセンスの売上月と原価発生月を連絡"
-      ],
-      "PIC": 1073960708
-    },
-    "SSL証明書/ドメイン更新": {
-      "ChildCheckList": [
-        "注文書の内容確認",
-        "作業報告書の有無を確認",
-        "SSL証明書作成または更新",
-        "顧客に連絡",
-        "作業報告書が必要な場合、作成",
-        "事務に作業報告書共有"
-      ],
-      "PIC": 1073881162
-    },
-    "サブスクリプション追加": {
-      "ChildCheckList": [
-        "申請書内容確認",
-        "サブスクリプション作成",
-        "サブスクリプション名変更",
-        "所有者追加",
-        "顧客へ設定完了の連絡（メール）",
-        "申請書保管",
-        "管理表更新",
-        "サブスクリプションの請求方法確認（合算か個別か）",
-        "サブスクリプションの請求先、プロジェクトコード確認",
-        "事務側へ新規サブスクリプションの情報共有"
-      ],
-      "PIC": 1073960708
-    }
-  };
-const objParentChecklists = Object.keys(objChecklists);
-var parentChecklists = '';
+strAsignees = '["a","B"]'
 
-for (let i = 0; i < objParentChecklists.length; i++){
-    parentChecklists += `* [ ] ${objParentChecklists[i]}<br>`;
+const lstAsignees = JSON.parse(strAsignees)
+strAsigneesInfos = ""
+
+for (let i = 0; i < lstAsignees; i++){
+    asignee = lstAsignees[i]
+    console.log(asignee)
+    strAsigneesInfos += `${asignee}\n`
 }
-console.log(parentChecklists)
-return parentChecklists;
+console.log(strAsigneesInfos)
+return strAsigneesInfos
