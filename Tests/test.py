@@ -1,12 +1,15 @@
-S = input()
-longest = 0
-acgts = 0
-for s in S:
-    if s in ["A","C","G","T"]:
-        acgts += 1
-    else:
-        acgts = 0
-    if longest < acgts:
-        longest = acgts
+N = int(input())
+coordinates = []
+for i in range(N):
+    x,y = input().split()
+    coordinates.append((x,y))
 
-print(longest)
+for i in range(N-1):
+    for j in range(i+1,N):
+        x1 = coordinates[i][0]
+        y1 = coordinates[i][1]
+        x2 = coordinates[j][0]
+        y2 = coordinates[j][1]
+        dx = x1-x2
+        dy = y1-y2
+        

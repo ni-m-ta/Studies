@@ -1,0 +1,42 @@
+# Overviews
+
+# Commands
+- Check lobal IP address
+    - `curl ipecho.net/plain; echo`
+- Show a manager for an IP address
+    - `whois -h whois.nic.ad.jp IPAddress`
+- Show a manager for a domain
+    - `whois -h whois.jprs.jp DomainName`
+- Show the IP address from a domain name
+    - `nslookup DomainName`
+- Check whether my host can send IP packets to a target host
+    - `ping IPAddress`
+    - `ping HostName`
+- Check my host name
+    - `hostname`
+- Read a file
+    - `cat FilePath`
+- Check my network
+    - `netstat`
+- Check how my host uses resources
+    - `top`
+- Check my local IP address
+    - `ifconfig`
+        - search `inet`
+- Send http requests
+    - option
+        - b : Cookieの送信
+        - c : Cookieの保存
+        - d : POSTデータの送信
+        - F : multipart/form-dataの送信
+        - H : ヘッダのカスタマイズ
+        - i : レスポンスヘッダの表示
+        - k : SSL証明書の検証をスキップ
+        - L : リダイレクト先に自動的にフォロー
+        - o : レスポンスをファイルに保存
+        - O: リクエスト先のファイル名で保存
+        - s：実行中のメッセージを非表示
+        - S：エラーメッセージを表示
+        - u : Basic認証のユーザ名とパスワード
+        - v：リクエストとレスポンスのヘッダーと内容を表示
+        - X: リクエストのHTTPメソッドを指定

@@ -185,7 +185,68 @@
         - Use cases
             - OAuth: ideal for scenarios where third-party applications need access to user data
             - SAML: ideal for achieving SSO and federated identity in enterprise scenarios
-
-
-
-
+- API
+    - Application Programming Interface
+    - a set of rules and protocols that allows different software applications to communicate with each other
+    - defines the methods and data formats that applications can use to requests and exchange information
+    - protocols
+        - HTTP/HTTPS for web APIs
+            - request methods
+                - GET
+                    - requests data from a specified resource
+                - POST
+                    - submits data to be processed to a specifed resource
+                - PUT
+                    - updates a resource or creates a new resource if it doesn't exist
+                - DELTE 
+                    - deletes a specified resource
+                - HEAD
+                    - requests the headers of a speficied resource without the body content
+                - OPTIONS
+                    - requests information about the communication options available for the target request
+            - URL
+                - scheme
+                    - http://
+                    - https://
+                - host
+                - port
+                - path
+                - query parameters
+                    - additional parameters appended to the URL after the question mark typicaly used for GET requets to provide data to the server
+            - HTTP headers
+                - additional metadata sent with teh request that provides information about the request or the client
+                - User-Agent
+                    - identifies the client software making the request
+                - Content-type
+                    - specifices the MIME type of the request body for POST requests
+                    - example
+                        - `application/json`
+                            - jsonでやり取り
+                        - `application/x-www-form-urlencoded`
+                            - エンコードされたurlでデータをやり取り
+                - Accept
+                    - specifies the preferred media types for the response content
+                - Authorization
+                    - Provides credentials for authenticating the client with the server
+                    - basic
+                        - `username:password` is encoded through Base64
+                    - digest
+                    - bearer
+                        - `Authorization: Bearer <token>`
+                        - response
+                            - `WWW-Authenticate: Bearer realm=""`
+                            - `WWW-Authenticate: Bearer realm="token_required"`
+            - Request Body
+            - Cookies
+        - SOAP
+            - Simple Object Access Protocol
+        - REST
+            - Represetnational State Transfer
+            - URL/URIで全てのリソースを一意に識別し、セッション管理や状態管理などを行わない
+            - 同じURLに対する呼び出しには常に同じ結果が返されることが期待される
+            - リソースの操作はHTTPメソッドによって指定され、結果はXMLやHTML, JSONなどで返される
+            - 処理結果はHTTPステータスコードで通知
+            - メリット
+                - アプリケーションの中のリソースがURIで示せる
+                - URIに規則が生まれることで、利用する開発者が楽になる
+                - ステートレスにすることで、スケーラビリティが向上

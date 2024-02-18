@@ -1,12 +1,10 @@
-strAsignees = '["a","B"]'
+// List A
+const listA = [1, 2, 3, 4, 5];
 
-const lstAsignees = JSON.parse(strAsignees)
-strAsigneesInfos = ""
+// List B
+const listB = [2, 4];
 
-for (let i = 0; i < lstAsignees; i++){
-    asignee = lstAsignees[i]
-    console.log(asignee)
-    strAsigneesInfos += `${asignee}\n`
-}
-console.log(strAsigneesInfos)
-return strAsigneesInfos
+// Eliminate elements from list A that belong to list B
+const result = listA.filter(item => listB.includes(item));
+
+console.log(result);

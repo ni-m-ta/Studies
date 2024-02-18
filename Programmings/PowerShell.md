@@ -679,24 +679,24 @@
         1. Connect to the VM using PowerShell
             - Client
                 - `Enter-PSSession -ComputerName {PublicIPAddressOfHostMachine}`
-- do tasks automatically
-    - Description
-        - more specifically, send a file from a Windows Server A to a Windows Server B via PowerShell with Time Schduler
-    - Solution
-        1. Create a script file
-        1. Register a schedule
-            - `Register-ScheduledTask -TaskName {TaskName} -Trigger {TriggerLikeWhenOrWhere} -Action {ActionToExecute}`
-                1. `$Trigger = New-SchduledTaskTrigger -At {00:00~23:59} -Once/-Daily/...`
-                1. `$Action = New-SchduledTaskAction -Execute {ProgramsToExecuteLikePowerShell.exe} -Argument {ScriptFileAbsPathToExecute}`
-                1. `Register-Scheduled -TaskName {TaskName} -Trigger $Trigger -Action $Action`
-            - You can see Timer Sceduler
-            - `Set-ScheduledTask -TaskName {TaskName} -Trigger -Action`
-                - modify a schduled task
-            - `Stop-ScheduledTask -TaskName {TaskName}`
-                - Stop the current running task
-            - `Unregister-ScheduledTask -TaskName {TaskName}`
-                - Remove a scheduled task
-            - `Get-ScheduledTaskInfo -TaskName {TaskName}`
+- タスクを自動的に実行する
+- 説明
+    - より具体的には、PowerShellを使用してWindows Server AからWindows Server Bにファイルを送信し、タイムスケジューラーを使用して自動化する
+- 解決策
+    1. スクリプトファイルを作成する
+    1. スケジュールを登録する
+        - `Register-ScheduledTask -TaskName {タスク名} -Trigger {トリガー、例えばWhenまたはWhere} -Action {実行アクション}`
+            1. `$Trigger = New-ScheduledTaskTrigger -At {00:00〜23:59} -Once/-Daily/...`
+            1. `$Action = New-ScheduledTaskAction -Execute {実行するプログラム、例えばPowerShell.exe} -Argument {実行するスクリプトファイルの絶対パス}`
+            1. `Register-ScheduledTask -TaskName {タスク名} -Trigger $Trigger -Action $Action`
+        - タイマースケジューラーを表示できます
+        - `Set-ScheduledTask -TaskName {タスク名} -Trigger -Action`
+            - スケジュールされたタスクを変更します
+        - `Stop-ScheduledTask -TaskName {タスク名}`
+            - 現在実行中のタスクを停止します
+        - `Unregister-ScheduledTask -TaskName {タスク名}`
+            - スケジュールされたタスクを削除します
+        - `Get-ScheduledTaskInfo -TaskName {タスク名}`
                 - get detail info of a schduled task
 - set up UTF-8 as the default char codes for PowerShell
     - Description
