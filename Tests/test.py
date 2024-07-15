@@ -1,12 +1,21 @@
-import re
-cloud_watch_topic = "社外Webとの同期時に409エラーが発生しました。"
+import pyxel
 
-pattern_for_5xx = r"5[0-9]{2}"
-if re.findall(pattern_for_5xx, cloud_watch_topic):
-    cloud_watch_topic = re.sub(pattern_for_5xx, "5xx", cloud_watch_topic)
-print(cloud_watch_topic)
-pattern_for_4xx = r"4[0-9]{2}"
-if re.findall(pattern_for_4xx, cloud_watch_topic):
-    cloud_watch_topic = re.sub(pattern_for_4xx, "4xx", cloud_watch_topic)
-    
-print(cloud_watch_topic)
+def read_xel_file(file_path):
+    events = []
+    with pyxel.open(file_path) as log:
+        for event in log:
+            events.append(event)
+
+    return events
+
+def print_event_details(events):
+    for event in events:
+        print("Event Name:", event.name)
+        print("Timestamp:", event.timestamp)
+        print("Data:")
+        for field, value in event.data.items():
+            print(f"  {field}: {value}")
+        print("----")
+        
+test = read_xel_file("./04_38_48_097_0.xel")
+print_event_details(test)

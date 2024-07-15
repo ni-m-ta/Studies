@@ -30,4 +30,450 @@
         - Details
     - SELinux integration
         - On systems with Security-Enhanced Linux (SELinux) enabled, the audit logs often include information related to SELinux contexts and permissions
-    - 
+
+# LinuC1
+## Packages and Libraries
+- dpkg
+    - -E
+        - すでに同バージョンがインストールされているれば、インストールしない
+    - -G
+        - すでに新バージョンがインストールされているれば、インストールしない
+    - -R, --recursive
+        - ディレクトリ内を再帰的に処理する
+    - -i, --install {packagefilename}
+        - パッケージをインストールする
+    - -r, --remove {packagename}
+        - 設定ファイルを残してパッケージをアンインストールする
+    - -P, --purge {packagename}
+        - 設定ファイルも含め完全にパッケージをアンインストールする
+    - -l, --list {searchpattern}
+        - インストール済みのパッケージを検索して表示
+    - -S, --search {filenamesearchpattern}
+        - 指定したファイルがどのパッケージからインストールされたかを表示する
+    - -L, --listfiles {packagename}
+        - 指定したパッケージからインストールされたファイルを一覧表示する
+    - -s, --status {packagename}
+        - パッケージ情報を表示する
+    - --configure {packagename}
+        - 展開されたパッケージを構成する
+    - --unpack {packagename}
+        - パッケージを展開する（インストールはしない）
+- apt-get
+    - -s, --dry-run
+        - システムを変更せず動作をシミュレートする
+    - -y, --yes
+        - 処理中の問い合わせに対して自動的にyesと答える
+    - autoclean
+        - ダウンロードしたパッケージのアーカイブを削除する
+    - autoremove
+        - 自動的にインスtーるされたもののもう使われていないパッケージを削除する
+    - download
+        - パッケージをダウンロードのみ行い、インストールしない
+    - dist-upgrade
+        - システム全体をアップグレード
+    - install
+        - パッケージをインストールまたはアップグレードする
+    - remove
+        - パッケージをアンインストールする
+    - update
+        - パッケージのインデックスを更新する
+    - upgrade
+        - システムの全パッケージのうち、他のパッケージを削除しないものをアップグレードする
+- apt-getコマンドが利用するリポジトリの情報は、/etc/apt/sources.list及び/etc/apt/sources.list.dディレクトリ以下のファイルで構成
+- apt-cache
+    - search {keyword}
+        - 指定したキーワードを含むパッケージを検索
+    - show {packagename}
+        - パッケージについての一般的な情報を表示する
+    - showpkg {packagename}
+        - パッケージについての詳細な情報を表示する
+    - depends {packagename}
+        - 指定したパッケージの依存関係情報を表示する
+- apt
+    - -c
+        - 設定ファイルを指定する
+        - デフォルトは/etc/apt/sources.list
+    - -d
+        - パッケージのダウンロードのみを行う
+    - -y
+        - 自動的にyes
+    - --no-install-recommends
+        - 必須ではない推奨パッケージはインストールしない
+    - --install-suggests
+        - 提案パッケージもインストールする
+    - --reinstall
+        - インストール済みのパッケージーの再インストールを許可する
+    - autoremove
+        - 自動的にインスtーるされたもののもう使われていないパッケージを削除する
+    - install
+        - パッケージをインストールまたはアップグレードする
+    - remove
+        - パッケージをアンインストールする
+    - update
+        - パッケージのインデックスを更新する
+    - upgrade
+        - システムの全パッケージのうち、他のパッケージを削除しないものをアップグレードする
+    - purge {packagename}
+        - パッケージを完全削除する
+    - full-upgrade
+        - システムのメジャーバージョンを最新にアップグレードする
+    - show {packagename}
+        - 指定したパッケージに関する情報を表示する
+    - list
+        - パッケージのリストを一覧表示する
+    - list --installed
+        - インストールされたパッケージを一覧表示する
+    - list --upgradeable
+        - アップグレード可能なパッケージを表示する
+    - search {keyword}
+        - 指定したキーワードでパッケージ情報を全文検索する
+    - depends {packagename}
+        - パッケージの依存関係を表示する
+    - autoremove
+        - 必要とされていないパッケージを自動的に削除する
+- rpm
+    - -i, --install {packagefilename}
+        - パッケージをインストール
+    - -U, --upgrade {packagefilename}
+        - パッケージをアップグレードする、なければインストール
+    - -F, --freshen {packagefilename}
+        - パッケージがインストールされていればアップグレードする
+        - -v
+            - 詳細な情報を表示
+        - -h, --hash
+            - 進行状況を#で表示する
+        - --nodeps
+            - 依存関係を無視してインストールする
+        - --force
+            - 既存のファイルを新しいものに置き換える
+        - --test
+            - 実際にはインストールせずにテストを実施する
+    - -e, --erase {packagename}
+        - パッケージをアンインストールする
+        - --nodeps
+            - 依存関係を無視してアンインストールする
+    - -q {packagename}
+        - -a, --all
+            - インストール済みのすべてのパッケージを表示する
+        - -f {filename}
+            - 指定したファイルを含むパッケージ名を表示する
+        - -p {packagefilename}
+            - 対象としてパッケージファイルを指定する
+        - -c, --configufiles
+            - 設定ファイルのみを表示する
+        - -d, --docfiles
+            - ドキュメントのみを表示する
+        - -i, --info
+            - 指定したパッケージの情報を表示する
+        - -l, --list
+            - 指定したパッケージに含まれるファイルを表示する
+        - -R, --requires
+            - 指定したパッケージが依存しているファイルなどを表示する
+        - changelog
+            - 変更履歴を表示する
+- yum
+    - check-update
+        - アップデート対象のパッケージリストを表示する
+    - update {packagename}
+        - 指定したパッケージをアップデートする
+    - install {packagename}
+        - 指定したパッケージをインストールする
+    - remove {packagename}
+        - 指定したパッケージをアンインストールする
+    - info {packagename}
+        - 指定したパッケージの情報を表示する
+    - list
+        - 全パッケージ情報をリスト表示する
+    - repolist
+        - リポジトリ一覧を表示する
+    - search {keyword}
+        - パッケージ情報をキーワードで検索する
+    - search all {keyword}
+        - パッケージをキーワードで検索する
+    - groups list
+        - パッケージグループをリスト表示する
+    - groups install {group}
+        - 指定したグループのパッケージをインストールする
+## ネットワーク
+- `etc/hostname`
+    - ホスト名
+- `etc/hosts`
+    - ホスト名とIPアドレスの対応
+- `nmcli {object} {command}`
+    - general
+        - status
+        - hostname
+        - hostname {hostname}
+    - networking
+        - on 
+        - off
+        - connectivity
+    - radio
+        - wifi
+        - wifi on
+        - wifi off
+        - wwan
+        - wwan on
+        - wwan off
+        - all on
+        - all off
+    - connection
+        - show
+        - modify {interfacename}
+        - up {ID}
+        - down {ID}
+    - device
+        - status
+        - show {interfacename}
+        - modify {interfacename}
+        - connect {interfacename}
+        - disconnect {interfacename}
+        - delete {interfacename}
+        - monitor {interfacename}
+        - wifi list
+        - wifi connect {SSID}
+        - wifi hotspot
+        - wifi rescan
+- `ip {target} {subcommand}`
+    - link
+    - addr
+    - route
+        - show
+        - add
+- `ifconfig {networkinterfacename} {parameter}`
+    - {IP address}
+    - netmask {subnetmask}
+    - up
+    - down
+- `ifup {networkinterfacename}`
+- `ifdown {networkinterfacename}`
+- `ping {hostname | ip address}`
+    - -c {num}
+    - -i {num}
+- `traceroute {hostname | ip address}`
+- `tracepath {hostname | ip address}`
+- `hostname`
+    - `hostname {hostname}`
+- `netstat {option}`
+    - -a, --all
+        - 全てのソケット情報を公開する
+    - -c, --continuous
+        - 状況を1秒ごとにリアルタイムで表示する
+    - -i, --interfaces
+        - ネットワークインターフェイスの状態を表示する
+    - -l, --listening
+        - 待ち受けているポートを数値で表示する
+    - -n, --numeric
+        - アドレスやポートを数値で表示する
+    - -p, --programs
+        - PIDとプロセス名も表示する
+    - -r, --route
+        - ルーティングテーブルも表示する
+    - -t, --tcp
+        - TCPポートのみ表示する
+    - -u, --udp
+        - UDPポートのみ表示する
+    - -4
+        - IPv4のみ表示する
+    - -6
+        - IPv6のみ表示する
+- `ss {option}`
+    - -a, --all
+        - 全てのソケット情報を公開する
+    - -l, --listening
+        - 待ち受けているポートを数値で表示する
+    - -n, --numeric
+        - アドレスやポートを数値で表示する
+    - -p, --processes
+        - PIDとプロセス名も表示する
+    - -t, --tcp
+        - TCPポートのみ表示する
+    - -u, --udp
+        - UDPポートのみ表示する
+    - -4, --ipv4
+        - IPv4のみ表示する
+    - -6, --ipv6
+        - IPv6のみ表示する
+- `nc {option} {host} {portnum}`
+    - -l, --listen
+        - 指定したポートをリッスンする
+    - -p, --source-port {port}
+        - ポート番号を指定する
+    - -u, --udp
+        - UDPを利用する
+    - -o, --output {file}
+        - 指定したファイルに出力する
+- `route {option}`
+    - -F, --fib
+        - カーネルのルーティングテーブルを表示する
+    - -C, --cache
+        - カーネルのルーティングキャッシュを表示する
+- `route add {parameter}`
+- `route del {parameter}`
+- `/etc/resolve.conf`
+    - domain行
+        - このホストが属するドメイン名
+    - search行
+        - ドメイン名が省略された際に保管するドメイン名
+    - nameserver行
+        - 参照先DNSサーバーのIPアドレスを記述する
+- `/etc/nsswitch.conf`
+    - 名前解決の順序を指定する
+- `getent hosts`
+    - ホスト名の一覧
+- `hosts {option} {hostname | IP address}`
+    - -t {type}
+        - a
+            - IPアドレス
+        - aaaa
+            - IPv6
+        - any
+            - 全ての情報
+        - mx
+            - メールサーバの情報
+        - ns
+            - DNSサーバの情報
+    - -v
+        - 詳細な情報を表示する
+- `dig {option} {hostname | domainname}`
+    - -x    
+        - IPアドレスからホスト名を検索する
+    - a
+        - IPアドレス
+    - aaaa
+        - IPv6
+    - any
+        - 全ての情報
+    - mx
+        - メールサーバの情報
+    - ns
+        - DNSサーバの情報
+## System
+- `/etc/passwd`
+    - {username}:x:{UID}:{GID}:{GECOS}:{homedir}:{defaultshell}
+- `/etc/group`
+    - {staff}:{x}:{GID}:{groupmember}
+- `useradd {option} {username}`
+    - -c, --comment {comment}
+    - -d, --home-dir {path}
+    - -g, --gid {groupname | GID}
+        - プライマリグループを指定する
+    - -G, --groups {}
+        - プライマリグループ以外に所属するグループを決める
+    - -s, --shell {path}
+    - -D, --defaults
+        - デフォルトの設定値を表示もしくは設定する
+    - -m, --create-home
+- `usermod {option} {username}`
+    - -c, --comment {comment}
+    - -d, --home-dir {path}
+    - -g, --gid {groupname | GID}
+        - プライマリグループを指定する
+    - -G, --groups {}
+        - プライマリグループ以外に所属するグループを決める
+    - -s, --shell {path}
+    - -L, --lock
+        - パスワードをロックして一時的に無効化する
+    - -U, --unlock
+        - パスワードのロックを解除する
+- `userdel {option} {username}`
+    - -r, --remove
+        - ホームディレクトリも同時に削除する
+- `passwd {option} {username}`
+    - -l, --lock
+        - パスワードをロックして一時的に無効化する
+    - -u, --unlock
+        - パスワードのロックを解除する
+- `groupadd {groupname}`
+- `groupmod {option} {groupname}`
+    - -g, --gid {GID}
+    - -n, --new-name {groupname}
+- `groupdel {groupname}`
+- `id {username}`
+- `getent pass wd`
+- `/var/spool/cron/`
+    - ユーザーのcrontabファイルを格納
+- `crontab {option}`
+    - -e
+        - エディタを使ってcrontabを編集する
+    - -l
+        - contabファイルの内容を表示する
+    - -r
+        - crontabファイルを削除する
+    - -i
+        - crontabファイル削除時に確認する
+    - -u {username}
+        - ユーザーを指定してcrontabファイルを編集する
+- `/etc/crontab`
+    - `/etc/cron.*`に置かれたファイルを呼び出すようにしている
+- `/etc/cron.d/`
+    - 各種のcronジョブを記述したファイルを収めたディレクトリ
+- `/etc/cron.hourly`
+    - 毎時間実行されるcronジョブを記述したファイルを収めたディレクトリ
+- `/etc/cron.daily`
+    - 毎日実行されるcronジョブを記述したファイルを収めたディレクトリ
+- `/etc/cron.weekly`
+    - 毎週実行されるcronジョブを記述したファイルを収めたディレクトリ
+- `/etc/cron.monthly`
+    - 毎月実行されるcronジョブを記述したファイルを収めたディレクトリ
+- `/etc/anacrontab`
+    - RANDOM_DELAY=mm
+        - ランダムに遅らせる最大値
+    - START_HOURS_RANGE=hh-hh
+    - 実行間隔日数 実行待機時間 実行日の記録ファイル 実行コマンド
+- `at {option}`
+    - -d, -r
+        - 予約中のジョブをジョブ番号で指定して削除する
+    - -l
+        - 予約中のジョブを表示する
+    - -f
+        - コマンドを記述したファイルを指定する
+- `/etc/cron.allow`
+- `/etc/cron.deny`
+- `/etc/at.allow`
+- `/etc/at.deny`
+- ロケール
+    - LC_CTYPE
+        - 文字の種類やその比較・分類の規定
+    - LC_COLLATE
+        - 文字の照合や整列に関する規定
+    - LC_MESSAGES
+        - メッセージ表示に使用する言語
+    - LC_MONETARY
+        - 通貨に関する規定
+    - LC_NUMERIC
+        - 数値の書式に関する規定
+    - LC_TIME
+        - 日付や時刻の書式に関する規定
+- `local {option}`
+    - -a, --all-locales
+        - 設定可能なロケールを表示する
+    - -m, --charmaps
+        - 利用できる文字コードの一覧
+- `iconv {option} {filename}`
+    - -f, --from-code {charcode}
+    - -t, --to-code {charcode}
+    - -l, --list
+## System Settings 
+- `date {MMDDhhmmCCYY.ss}`
+- `hwclock {option}`
+    - -r, --show
+        - ハードウェア時刻を表示する
+    - -w, --systohc
+        - システム時刻の時刻をハードウェア時刻に設定する
+    - -s, --hctosys
+        - ハードウェア時刻の時刻をsisyテム時刻に設定する
+- `timedatactl {subcommand}`
+    - status
+    - set-time {HH:MM:SS}
+    - set-time {YYYY-MM-DD}
+    - set-time {YYYY-MM-DD HH:MM:SS}
+    - set-timezone {timezone}
+    - list-timezone
+    - set-ntp {yes | no}
+- `/usr/share/zoneinfo`
+    - タイムゾーンの情報
+- `cp /usr/share/zoneinfo/{area}/{country} /etc/localtime`
+    - タイムゾーンを設定
+- `ls -sf /usr/share/zoneinfo/{area}/{country} /etc/localtime`
+    - タイムゾーンを設定
